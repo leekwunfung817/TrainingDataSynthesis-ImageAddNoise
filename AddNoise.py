@@ -1,4 +1,5 @@
 import numpy as np
+np.seterr(invalid='ignore')
 import os
 import cv2
 
@@ -35,7 +36,7 @@ def add_rain(image):
 	drop_width=1
 	drop_color=(200,200,200) ## a shade of gray    
 	rain_drops= generate_random_lines(imshape,slant,drop_length)        
-	print('rain_drops',len(rain_drops))
+	# print('rain_drops',len(rain_drops))
 	for rain_drop in rain_drops:        
 		cv2.line(image,(rain_drop[0],rain_drop[1]),(rain_drop[0]+slant,rain_drop[1]+drop_length),drop_color,drop_width)    
 	image= cv2.blur(image,(6,6)) ## rainy view are blurry        
