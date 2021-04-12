@@ -6,18 +6,20 @@ import cv2
 from shutil import copyfile
 import random
 
-
+fDir = './data/'
+tDir = './dataWithNoise/'
 
 def duplicate(fn,func,img):
 	# hash_ = random.getrandbits(128)
 	# ffn = str(hash_)+'_'+func
 	ffn = fn+'_'+func
-	cv2.imwrite('./data/'+ffn+'.jpg',img)
-	copyfile('./data/'+fn+'.txt', './data/'+ffn+'.txt')
-	copyfile('./data/'+fn+'.xml', './data/'+ffn+'.xml')
+	cv2.imwrite(tDir+ffn+'.jpg',img)
+	copyfile(fDir+fn+'.txt', tDir+ffn+'.txt')
+	copyfile(fDir+fn+'.xml', tDir+ffn+'.xml')
 
 def pro(fn):
-	img = cv2.imread('./data/'+fn+'.jpg')
+	print(fn)
+	img = cv2.imread(fDir+fn+'.jpg')
 	duplicate(fn,'rain',AddNoise.add_rain(img))
 	duplicate(fn,'snowNrain',AddNoise.add_snow( AddNoise.add_rain(img) ) )
 	duplicate(fn,'rectangleNrain',AddNoise.rectangle( AddNoise.add_rain(img) ))
@@ -26,4 +28,7 @@ def pro(fn):
 	duplicate(fn,'speckleNrain',AddNoise.add_rain( AddNoise.speckle(img) ) )
 	duplicate(fn,'allNoise',AddNoise.allNoise(img))
 
-pro('11_1_i_h__20190621093202_27871908')
+import os
+for file in os.listdir(fDir):
+	if '.jpg' in file:
+		pro(file.replace('.jpg',''))

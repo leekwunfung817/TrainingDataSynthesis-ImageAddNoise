@@ -2,6 +2,8 @@ import numpy as np
 np.seterr(invalid='ignore')
 import os
 import cv2
+import math
+
 
 def add_snow(image):    
 	image_HLS = cv2.cvtColor(image,cv2.COLOR_RGB2HLS) ## Conversion to HLS    
@@ -18,7 +20,7 @@ def add_snow(image):
  ##### ##### ##### ##### ##### 
 def generate_random_lines(imshape,slant,drop_length):    
 	drops=[]    
-	for i in range(1500): ## If You want heavy rain, try increasing this        
+	for i in range(math.floor( imshape[0]/2 )): ## If You want heavy rain, try increasing this        
 		# if slant<0:            
 		# 	x= np.random.randint(slant,imshape[1])        
 		# else:            
@@ -95,10 +97,10 @@ def rectangle(image):
 		row,col,ch = image.shape
 
 		w, h = np.random.randint(100,500), np.random.randint(100,500)
-		x, y = np.random.randint(0,row-w), np.random.randint(0,col-h),   # Rectangle parameters
+		x, y = np.random.randint(0,row), np.random.randint(0,col),   # Rectangle parameters
 		r,g,b = np.random.randint(0, 255),np.random.randint(0, 255),np.random.randint(0, 255)
 		cv2.rectangle(overlay, (x, y), (x+w, y+h), (r,g,b), -1)  # A filled rectangle
-		alpha = 0.2  # Transparency factor.
+		alpha = 0.3  # Transparency factor.
 		# Following line overlays transparent rectangle over the image
 		image = cv2.addWeighted(overlay, alpha, image, 1 - alpha, 0)
 	return image
